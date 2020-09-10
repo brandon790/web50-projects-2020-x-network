@@ -3,8 +3,14 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
+import json
+from django.http import JsonResponse
 
-from .models import User
+
+
+from .models import User, Post
 
 
 def index(request):
@@ -61,3 +67,25 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "network/register.html")
+
+@csrf_exempt
+@login_required
+def new_post(request):
+    
+    # Composing a new email must be via POST
+    if request.method != "POST":
+        return JsonResponse({"error": "POST request required."}, status=400)
+
+        # Get contents of post
+        data = json.loads(request.body)
+        user = User.objects.get(post=post)
+        content = data.get("post_content", "")
+        post = Post (
+            user = user,
+            content = content,
+        )
+        post.save()
+
+        return JsonResponse({"message": "Post sent successfully."}, status=201)
+
+

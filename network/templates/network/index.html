@@ -2,5 +2,20 @@
 
 {% block body %}
 
+{% if message %}
+    <div>{{ message }}</div>
+{% endif %}
+
+<form action="{% url 'new_post' %}" method="post">
+    {% csrf_token %}
+    <div id="all-posts-head">
+        <h3>All Posts</h3>
+        <div style="border-style: solid;margin: 15px;border-width: thin;">
+            <h4 style="margin-left: 10px;">New Post</h4>
+                <textarea rows="4" cols="202" style="margin-left: 10px" id="post_content"></textarea>
+                <input style="margin-left: 10px;" type="submit" value="Post">
+            </div>
+        </div>
+</form>
 
 {% endblock %}
