@@ -72,20 +72,6 @@ def register(request):
 @login_required
 def new_post(request):
     
-    # Composing a new email must be via POST
-    if request.method != "POST":
-        return JsonResponse({"error": "POST request required."}, status=400)
-
-        # Get contents of post
-        data = json.loads(request.body)
-        user = User.objects.get(post=post)
-        content = data.get("post_content", "")
-        post = Post (
-            user = user,
-            content = content,
-        )
-        post.save()
-
-        return JsonResponse({"message": "Post sent successfully."}, status=201)
-
+    
+    
 
