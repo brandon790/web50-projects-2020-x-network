@@ -7,6 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 import json
 from django.http import JsonResponse
+from datetime import datetime
 
 
 
@@ -14,7 +15,10 @@ from .models import User, Post
 
 
 def index(request):
-    return render(request, "network/index.html")
+    all_posts = Post.objects.all().reverse()
+    return render(request, "network/index.html", {
+            "all_posts": all_posts
+        })    
 
 
 def login_view(request):
@@ -71,7 +75,15 @@ def register(request):
 @csrf_exempt
 @login_required
 def new_post(request):
-    
-    
-    
+    all_posts = Post.objects.all()
+    content = (request.POST.get('post_content'))
+    if request.method == "POST":
+        new_post = Post.objects.create(
+            user=request.user,
+            content=content,
+            likes='0')
+        return render(request, "network/index.html", {
+            "all_posts": all_posts
+        })
 
+    

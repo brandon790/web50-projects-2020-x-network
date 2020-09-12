@@ -6,4 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     })
     document.querySelector('#following').addEventListener('click', function() {                          
         document.querySelector('#all-posts-head').style.display = 'none';
+    })
+    document.querySelector('#username').addEventListener('click', function() {                          
+        document.querySelector('#all-posts-head').style.display = 'none';
 })});
