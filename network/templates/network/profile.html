@@ -1,0 +1,17 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+
+{% if message %}
+    <div>{{ message }}</div>
+{% endif %}
+
+<form action="{% url 'profile' %}" method="post">
+{% csrf_token %}
+<div id="profile">
+    <h3>{{ username }}</h3>
+    <input type="submit" id='follow_user' value="Follow {{ username }}"></button>
+</div>
+</form>
+
+{% endblock %}

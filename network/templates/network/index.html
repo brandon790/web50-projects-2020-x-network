@@ -15,19 +15,22 @@
                 <textarea rows="4" cols="202" style="margin-left: 10px" name="post_content"></textarea>
                 <input style="margin-left: 10px;" type="submit" value="Post">
             </div>
+        </form>
+  
+        <form action="{% url 'profile' %}" method="GET">
         {% for item in all_posts %}
-        <h5 style="border-style: solid;margin: 15px;border-width: thin;"> <div>{{ item.user }}</div>
+        <h5 style="border-style: solid;margin: 15px;border-width: thin;">
+            <div>
+                <input type="submit" name="user" value="{{ item.user }}" style="background:none; border-width:0px; color:black; text-decoration:underline;" />
+            </div>
             <div>{{ item.content }}</div>
             <div>{{ item.timestamp }}</div>
             <div>{{ item.likes }}</div>
-            </h5>
-        
-        <br>   
-
-
+        </h5>
+        <br>  
         {% endfor %}
+        </form>
 
         </div>
-</form>
 
 {% endblock %}

@@ -11,7 +11,7 @@ from datetime import datetime
 
 
 
-from .models import User, Post
+from .models import User, Post, UserFollowing
 
 
 def index(request):
@@ -75,7 +75,7 @@ def register(request):
 @csrf_exempt
 @login_required
 def new_post(request):
-    all_posts = Post.objects.all()
+    all_posts = Post.objects.all().order_by('-timestamp')
     content = (request.POST.get('post_content'))
     if request.method == "POST":
         new_post = Post.objects.create(
@@ -85,5 +85,22 @@ def new_post(request):
         return render(request, "network/index.html", {
             "all_posts": all_posts
         })
+
+@csrf_exempt
+@login_required
+def profile(request):
+    if request.method == "POST":
+        new_follow = UserFollowing.objects.create(
+            user_id=request.user,
+            following_user_id=request.user
+        )
+        return render(request, "network/index.html")
+    elif request.method == "GET":
+        profile = request.GET["user"]
+        return render(request, "network/profile.html", {
+        "username" : profile
+    })
+
+
 
     

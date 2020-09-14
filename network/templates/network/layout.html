@@ -16,7 +16,9 @@
               <ul class="navbar-nav mr-auto">
                 {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="#" id='username'><strong>{{ user.username }}</strong></a>
+                        <form action="{% url 'profile' %}" method="GET">
+                            <input class="nav-link"  style="background:none; border-width:0px" type="submit" name="user" value="{{ request.user }}" />
+                        </form>
                     </li>
                 {% endif %}
                 <li class="nav-item">
