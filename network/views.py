@@ -89,16 +89,19 @@ def new_post(request):
 @csrf_exempt
 @login_required
 def profile(request):
+    profile = request.GET.get("user")
+    like_count = (UserFollowing.objects.filter(user_id=profile).count())
+
     if request.method == "POST":
         new_follow = UserFollowing.objects.create(
-            user_id=request.user,
-            following_user_id=request.user
+            user_id= profile,
+            following_user_id= request.user
         )
         return render(request, "network/index.html")
     elif request.method == "GET":
-        profile = request.GET["user"]
         return render(request, "network/profile.html", {
-        "username" : profile
+        "username" : profile,
+        "total_likes" : like_count
     })
 
 
