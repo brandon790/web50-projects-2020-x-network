@@ -10,9 +10,16 @@
 {% csrf_token %}
 <div id="profile">
     <h3>{{ username }}</h3>
-    <input type="submit" id='follow_user' value="Follow {{ username }}"></button>
+    {% if current_following == False %}
+    <input type="submit" id='follow_user' name='follow_user' value="Follow {{ username }}"></button>
+    {% else %}
+    <input type="submit" id='unfollow_user' name='unfollow_user' value="Unfollow {{ username }}"></button>
+    {% endif %}
+
 </div>
 </form>
-<h4>Likes:{{ total_likes }}</h4>  
+<h4>Followers:{{ total_followers }}</h4>  
+<h4>Following:{{ total_following }}</h4>  
+
 
 {% endblock %}

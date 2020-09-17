@@ -90,18 +90,33 @@ def new_post(request):
 @login_required
 def profile(request):
     profile = request.GET.get("user")
-    like_count = (UserFollowing.objects.filter(user_id=profile).count())
+    follower_count = (UserFollowing.objects.filter(user_id=profile).count())
+    following_count = (UserFollowing.objects.filter(following_user_id=profile).count())
+    current_following = (UserFollowing.objects.filter(user_id=profile, following_user_id=request.user ).count())
+    if current_following >= 1:
+        current_following = True
+    else:
+        current_following = False
 
     if request.method == "POST":
-        new_follow = UserFollowing.objects.create(
-            user_id= profile,
-            following_user_id= request.user
-        )
-        return render(request, "network/index.html")
+        if request.POST.get('unfollow_user',default=None) == None:
+            new_follow = UserFollowing.objects.create(
+                user_id= profile,
+                following_user_id= request.user
+            )
+            return render(request, "network/index.html")
+        else:
+            UserFollowing.objects.filter(user_id=profile, following_user_id=request.user ).delete()
+            return render(request, "network/index.html")
+
+
     elif request.method == "GET":
         return render(request, "network/profile.html", {
         "username" : profile,
-        "total_likes" : like_count
+        "total_followers" : follower_count,
+        "total_following" : following_count,
+        "current_following" : current_following
+
     })
 
 
