@@ -6,19 +6,11 @@
     <div>{{ message }}</div>
 {% endif %}
 
-<form action="{% url 'new_post' %}" method="post">
-    {% csrf_token %}
-    <div id="all-posts-head">
-        <h3>All Posts</h3>
-        <div style="border-style: solid;margin: 15px;border-width: thin;">
-            <h4 style="margin-left: 10px;">New Post</h4>
-                <textarea rows="4" cols="202" style="margin-left: 10px" name="post_content"></textarea>
-                <input style="margin-left: 10px;" type="submit" value="Post">
-            </div>
-        </form>
-  
+
+<h4>Followers Posts</h4>  
+
         <form action="{% url 'profile' %}" method="GET">
-        {% for item in all_posts %}
+        {% for item in following_posts %}
         <h5 style="border-style: solid;margin: 15px;border-width: thin;">
             <div>
                 <input type="submit" name="user" value="{{ item.user }}" style="background:none; border-width:0px; color:black; text-decoration:underline;" />

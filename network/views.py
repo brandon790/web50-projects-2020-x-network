@@ -18,7 +18,21 @@ def index(request):
     all_posts = Post.objects.all().reverse()
     return render(request, "network/index.html", {
             "all_posts": all_posts
-        })    
+        })
+
+
+def following(request):
+    following_users = (UserFollowing.objects.filter(following_user_id=request.user).values('user_id'))
+    for i in following_users:
+        following_users = i['user_id']
+    if len(following_users) > 0:    
+        users_id = User.objects.get(username__in=[following_users])
+        following_posts = Post.objects.filter(user__in=[users_id])
+        return render(request, "network/following.html", {
+            "following_posts": following_posts})
+    else:
+        return render(request, "network/following.html", {
+        })
 
 
 def login_view(request):
