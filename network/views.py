@@ -90,6 +90,12 @@ def new_post(request):
 @login_required
 def profile(request):
     profile = request.GET.get("user")
+    if profile == str(request.user):
+        own_profile = True
+    else:
+        own_profile = False
+    users_id = User.objects.get(username=profile)
+    all_posts_user = Post.objects.filter(user=users_id).reverse()
     follower_count = (UserFollowing.objects.filter(user_id=profile).count())
     following_count = (UserFollowing.objects.filter(following_user_id=profile).count())
     current_following = (UserFollowing.objects.filter(user_id=profile, following_user_id=request.user ).count())
@@ -115,8 +121,9 @@ def profile(request):
         "username" : profile,
         "total_followers" : follower_count,
         "total_following" : following_count,
-        "current_following" : current_following
-
+        "current_following" : current_following,
+        "all_posts_user" : all_posts_user,
+        "own_profile" : own_profile
     })
 
 

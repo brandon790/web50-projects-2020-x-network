@@ -10,9 +10,9 @@
 {% csrf_token %}
 <div id="profile">
     <h3>{{ username }}</h3>
-    {% if current_following == False %}
+    {% if current_following == False and own_profile == False %}
     <input type="submit" id='follow_user' name='follow_user' value="Follow {{ username }}"></button>
-    {% else %}
+    {% elif own_profile == False %}
     <input type="submit" id='unfollow_user' name='unfollow_user' value="Unfollow {{ username }}"></button>
     {% endif %}
 
@@ -20,6 +20,17 @@
 </form>
 <h4>Followers:{{ total_followers }}</h4>  
 <h4>Following:{{ total_following }}</h4>  
+{% for item in all_posts_user %}
+        <h5 style="border-style: solid;margin: 15px;border-width: thin;">
+            <div>
+                <input type="submit" name="user" value="{{ item.user }}" style="background:none; border-width:0px; color:black; text-decoration:underline;" />
+            </div>
+            <div>{{ item.content }}</div>
+            <div>{{ item.timestamp }}</div>
+            <div>Likes:{{ item.likes }}</div>
+        </h5>
+        <br>  
+        {% endfor %}
 
 
 {% endblock %}
