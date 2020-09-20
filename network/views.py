@@ -8,6 +8,8 @@ from django.contrib.auth.decorators import login_required
 import json
 from django.http import JsonResponse
 from datetime import datetime
+from django.core.paginator import Paginator
+
 
 
 
@@ -16,11 +18,16 @@ from .models import User, Post, UserFollowing
 
 def index(request):
     all_posts = Post.objects.all().reverse()
+    paginator = Paginator(all_posts, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     return render(request, "network/index.html", {
-            "all_posts": all_posts
+            "all_posts": all_posts,
+            "page_obj": page_obj
         })
 
-
+@csrf_exempt
+@login_required
 def following(request):
     following_users = (UserFollowing.objects.filter(following_user_id=request.user).values('user_id'))
     for i in following_users:
@@ -28,8 +35,14 @@ def following(request):
     if len(following_users) > 0:    
         users_id = User.objects.get(username__in=[following_users])
         following_posts = Post.objects.filter(user__in=[users_id])
+        paginator = Paginator(following_posts, 10)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+
         return render(request, "network/following.html", {
-            "following_posts": following_posts})
+            "following_posts": following_posts,
+            "page_obj": page_obj
+            })
     else:
         return render(request, "network/following.html", {
         })
@@ -124,10 +137,10 @@ def profile(request):
                 user_id= profile,
                 following_user_id= request.user
             )
-            return render(request, "network/index.html")
+            return HttpResponseRedirect("following")
         else:
             UserFollowing.objects.filter(user_id=profile, following_user_id=request.user ).delete()
-            return render(request, "network/index.html")
+            return HttpResponseRedirect("following")
 
 
     elif request.method == "GET":
