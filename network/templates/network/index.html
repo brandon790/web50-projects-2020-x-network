@@ -27,7 +27,33 @@
             <div>{{ item.timestamp }}</div>
             <div>{{ item.likes }}</div>
             {% if item.user == request.user %}
-            <button type="button" onclick='document.getElementById("post_{{ item.id }}").innerHTML = "<textarea>{{ item.content }}</textarea>"'>Edit</button>
+
+            <button type="button" id="save_edit_{{ item.id }}" onclick="test_alert()">Save</button>
+            <button type="button" id="edit_post_{{ item.id }}" onclick='document.getElementById("post_{{ item.id }}").innerHTML = "<textarea>{{ item.content }}</textarea>"'>Edit</button>
+            
+            <button type="button" onclick="test_alert()">Try</button>
+
+            <script>
+                function test_alert() {
+                    alert("yes");
+
+                /* //in progess
+                document.addEventListener('DOMContentLoaded', function() {
+                document.getElementById("save_edit_{{ item.id }}").addEventListener("click", test_alert, false);
+                
+                }}
+
+                var x = document.getElementById("post_{{ item.id }}").value;
+                var update_save = {
+                    user = "{{ item.user }}",
+                    content = x,
+                    timestamp = "{{ item.timestamp }}",
+                    likes = "{{ item.likes }}"};
+                    update_save.save();
+                }) */
+
+              </script>
+
             {% endif %}
         </h5>
         <br>  

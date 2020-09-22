@@ -1,8 +1,10 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     
-    docuement.querySelector('#edit_post').onclick=document.getElementById("post_{{ item.id }}").innerHTML = "Hello JavaScript!";
-
+    document.getElementById("save_edit_{{ item.id }}").addEventListener("click", test_alert, false);
+    function test_alert() {
+        alert("yes");
+        
     document.querySelector('#all-posts').addEventListener('click', function() { 
     document.querySelector('#profile').style.display = 'none'; 
     document.querySelector('#following').style.display = 'none';                        
@@ -22,5 +24,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     })
 
+    
 
 });

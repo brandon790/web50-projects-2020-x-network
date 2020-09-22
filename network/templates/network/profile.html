@@ -30,7 +30,9 @@
             <div id="post_{{ item.id }}">{{ item.content }}</div>
             <div>{{ item.timestamp }}</div>
             <div>Likes:{{ item.likes }}</div>
+            {% if item.user == request.user %}
             <button type="button" onclick='document.getElementById("post_{{ item.id }}").innerHTML = "<textarea>{{ item.content }}</textarea>"'>Edit</button>
+            {% endif %}
         </h5>
         <br>  
         {% endfor %}
