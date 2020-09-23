@@ -4,6 +4,17 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelector("#save_edit").addEventListener('click', function() {
         var x = document.getElementById('edited_content').value;
         alert(x);
+        fetch('', {
+            method: 'POST',
+            body: JSON.stringify({
+              recipients: x
+            })
+          })
+          .then(response => response.json())
+          .then(result => {
+              // Print result
+              console.log(result);
+          })
     });
 
 /*     function save_edit() {
