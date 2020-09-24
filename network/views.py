@@ -26,6 +26,31 @@ def index(request):
             "page_obj": page_obj
         })
 
+def spec_post(request, num):
+    spec_post_user = (Post.objects.filter(id=num).values('user'))
+    spec_post_content = Post.objects.filter(id=num).values('content')
+    spec_post_timestamp = Post.objects.filter(id=num).values('timestamp')
+    spec_post_likes = Post.objects.filter(id=num).values('likes')
+
+    for i in spec_post_user:
+        spec_post_user = i['user']
+    spec_post_user_name = User.objects.filter(id=spec_post_user).values('username')
+    for i in spec_post_user_name:
+        spec_post_user_name = i['username']
+    for i in spec_post_content:
+        spec_post_content = i['content']
+    for i in spec_post_timestamp:
+        spec_post_timestamp = i['timestamp']
+    for i in spec_post_likes:
+        spec_post_likes = i['likes'] 
+    data = {
+        'name': spec_post_user_name,
+        'content': spec_post_content,
+        "timestamp" : spec_post_timestamp,
+        "likes": spec_post_likes
+    }
+    return JsonResponse(data)
+
 @csrf_exempt
 @login_required
 def following(request):

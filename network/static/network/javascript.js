@@ -3,12 +3,15 @@ document.addEventListener('DOMContentLoaded', function() {
     
     document.querySelector("#save_edit").addEventListener('click', function() {
         var x = document.getElementById('edited_content').value;
-        alert(x);
-        fetch('', {
-            method: 'POST',
-            body: JSON.stringify({
-              recipients: x
-            })
+        var y = document.getElementById('edited_content').parentElement.id.replace('post_','');
+        console.log(y);
+        fetch(`/spec_post/${y}`, {
+            method: 'PATCH',
+            headers : {
+                "content_type" : "application/json"
+            },
+            body: JSON.stringify(
+            )
           })
           .then(response => response.json())
           .then(result => {
@@ -17,16 +20,6 @@ document.addEventListener('DOMContentLoaded', function() {
           })
     });
 
-/*     function save_edit() {
-        alert("yes");
-        var x = document.getElementById("post_{{ item.id }}").value;
-                var update_save = {
-                    user = "{{ item.user }}",
-                    content = x,
-                    timestamp = "{{ item.timestamp }}",
-                    likes = "{{ item.likes }}"};
-                    update_save.save();
-                } */
 
     document.querySelector('#all-posts').addEventListener('click', function() { 
     document.querySelector('#profile').style.display = 'none'; 
