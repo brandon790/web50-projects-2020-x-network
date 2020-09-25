@@ -12,5 +12,6 @@ urlpatterns = [
     path("profile", views.profile, name="profile"),
     path("following", views.following, name="following"),
 
-    path("spec_post/<int:num>", views.spec_post, name="spec_post")
+    path("spec_post/<int:num>", views.spec_post, name="spec_post"),
+    path("ajax/edit_post/", views.edit_post, name='edit_post')
 ]

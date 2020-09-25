@@ -5,21 +5,23 @@ document.addEventListener('DOMContentLoaded', function() {
         var x = document.getElementById('edited_content').value;
         var y = document.getElementById('edited_content').parentElement.id.replace('post_','');
         console.log(y);
-        fetch(`/spec_post/${y}`, {
-            method: 'PATCH',
-            headers : {
-                "content_type" : "application/json"
+        $.ajax({
+            url: '/ajax/edit_post/',
+            data: {
+              'new_content': x ,
+              'cur_post' : y
             },
-            body: JSON.stringify(
-            )
-          })
-          .then(response => response.json())
-          .then(result => {
-              // Print result
-              console.log(result);
-          })
-    });
+            dataType: 'json',
+            success: function (data) {
+               {
+                alert("A user with this username already exists.");
+              }
+            }
+          });
+        document.getElementById(`post_${y}`).innerHTML = `${x}`;
+        });
 
+    
 
     document.querySelector('#all-posts').addEventListener('click', function() { 
     document.querySelector('#profile').style.display = 'none'; 
