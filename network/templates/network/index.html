@@ -25,7 +25,9 @@
             </div>
             <div id="post_{{ item.id }}"> {{ item.content }}</div>
             <div>{{ item.timestamp }}</div>
-            <div>{{ item.likes }}</div>
+            <div id="numlikes_{{ item.id }}">{{ item.likes }} </div>
+            <button type="button" id="{{ item.id }}" onclick='like_post(this.id)'>Like</button><br>
+
             {% if item.user == request.user %}
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 

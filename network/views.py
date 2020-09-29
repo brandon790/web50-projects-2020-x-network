@@ -141,7 +141,7 @@ def new_post(request):
 def edit_post(request):
     all_posts = Post.objects.all().order_by('-timestamp')
     edit_content = request.GET.get('new_content', None)
-    cur_post = request.GET.get('cur_post', None)
+    cur_post = request.GET.get('cur_post', None)  
     del_post = Post.objects.filter(id=cur_post).delete()
     new_post = Post.objects.create(
         user=request.user,
@@ -150,6 +150,17 @@ def edit_post(request):
     return render(request, "network/index.html", {
         "all_posts": all_posts
         })
+
+def like_post(request):
+    cur_post = request.GET.get('cur_post', None)
+    add_like = request.GET.get('add_like', None)
+    if int(add_like) >= 1:
+        Post.objects.filter(id=cur_post).update(likes=int(add_like))
+        all_posts = Post.objects.all().order_by('-timestamp')
+        return render(request, "network/index.html", {
+            "all_posts": all_posts
+            })
+        
 
 
 @csrf_exempt
